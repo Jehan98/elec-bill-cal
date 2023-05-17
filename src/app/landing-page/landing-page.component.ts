@@ -8,17 +8,31 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./landing-page.component.css'],
 })
 export class LandingPageComponent {
-  from_date = new Date(2022, 1, 14);
-  to_date = new Date(2022, 1, 15);
+  from_date_string = '2022-1-14';
+  to_date_string = '2022-1-15';
   units = 0;
+  monthlyUnits = 0;
   fixed_cost = '';
   variable_cost = '';
 
   constructor(private api_service: ApiService, private http: HttpClient) {}
 
   onSubmit() {
-    console.log(this.from_date);
-    this.api_service.getData(this.units).subscribe((data) => {
+    const from_date = new Date(this.from_date_string);
+    const to_date = new Date(this.to_date_string);
+
+    const difference = to_date.getTime() - from_date.getTime();
+
+    // Convert milliseconds to days
+    const differenceDays = Math.floor(difference / (1000 * 60 * 60 * 24));
+    console.log(differenceDays);
+    if (differenceDays > 30) {
+      this.monthlyUnits = Math.floor((this.units / differenceDays) * 30);
+    } else {
+      this.monthlyUnits = this.units;
+    }
+    console.log(this.monthlyUnits);
+    this.api_service.getData(this.monthlyUnits).subscribe((data) => {
       this.fixed_cost = data.fixed_cost;
       this.variable_cost = data.variable_cost;
       console.log(data);
