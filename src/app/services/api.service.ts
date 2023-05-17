@@ -6,7 +6,9 @@ import { HttpClient } from '@angular/common/http';
 export class ApiService {
   constructor(private httpClient: HttpClient) {}
 
-  getData(): Observable<any> {
-    return this.httpClient.get('http://localhost:8080/');
+  getData(value: number): Observable<any> {
+    return this.httpClient.get(
+      `http://localhost:8080/api/v1/bill?value=${value}`
+    );
   }
 }
