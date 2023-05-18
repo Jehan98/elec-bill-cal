@@ -1,7 +1,7 @@
 <div
   class="flex flex-col gap-3 bg-slate-200 min-h-screen justify-center items-center"
 >
-  <div class="text-2xl text-orange-600 mb-10">
+  <div class="text-4xl text-orange-600 mb-10">
     Domestic Electricity Bill Calculator
   </div>
   <form (ngSubmit)="onSubmit()">
@@ -33,13 +33,22 @@
         class="border-2 rounded p-2"
       /><br />
 
-      <button type="submit" class="bg-green-300 p-2 rounded-xl border-2">
-        Submit
+      <button
+        type="submit"
+        class="font-semibold bg-green-400 p-2 rounded-xl border-2"
+      >
+        Calculate
       </button>
     </div>
   </form>
-  <div class="flex flex-col bg-white p-3 rounded-xl w-1/3">
-    <h2 class="text-xl font-semibold">Fixed Cost:{{ fixed_cost }}</h2>
-    <h2 class="text-xl font-semibold">Variable Cost:{{ variable_cost }}</h2>
+  <div class="flex flex-col items-center bg-white p-3 rounded-xl w-1/3">
+    <p class="p-2 text-xl font-bold text-red-700">Electricity Bill</p>
+    <h2 class="text-lg font-semibold">
+      Fixed Cost (LKR):{{ " " + fixed_cost }}
+    </h2>
+    <h2 class="text-lg font-semibold">
+      Variable Cost (LKR):{{ " " + variable_cost }}
+    </h2>
+    <p class="text-red-700">{{ msg }}</p>
   </div>
 </div>

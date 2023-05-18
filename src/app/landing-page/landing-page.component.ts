@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { HttpClient } from '@angular/common/http';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-landing-page',
@@ -15,24 +14,22 @@ export class LandingPageComponent {
   monthlyUnits = 0;
   fixed_cost = '';
   variable_cost = '';
+  msg = '';
 
-  constructor(
-    private api_service: ApiService,
-    private http: HttpClient,
-    private toastr: ToastrService
-  ) {}
+  constructor(private api_service: ApiService, private http: HttpClient) {}
 
   onSubmit() {
     const from_date = new Date(this.from_date_string);
     const to_date = new Date(this.to_date_string);
 
     const difference = to_date.getTime() - from_date.getTime();
-    // Convert milliseconds to days
     const differenceDays = Math.floor(difference / (1000 * 60 * 60 * 24));
     console.log(differenceDays);
 
     if (differenceDays < 0) {
-      this.toastr.error('Please select valid dates', 'Error');
+      this.msg = 'Please add valid dates';
+    } else {
+      this.msg = '';
     }
 
     if (differenceDays > 30) {
@@ -40,14 +37,10 @@ export class LandingPageComponent {
     } else {
       this.monthlyUnits = this.units;
     }
-    console.log(this.monthlyUnits);
     this.api_service.getData(this.monthlyUnits).subscribe((data) => {
       this.fixed_cost = data.fixed_cost;
       this.variable_cost = data.variable_cost;
       console.log(data);
     });
   }
-}
-function showToast() {
-  throw new Error('Function not implemented.');
 }
